@@ -17,11 +17,13 @@ def generate_test_cases(examples: List[str], function_name: str) -> str:
 
     for i, example in enumerate(examples, start=1):
         _input = example.split("Input: ")[1].split("\n")[0]
-        var_value = _input.split(" = ")[1]
+        var_values = [var_def.split(" = ")[1] for var_def in _input.split(", ")]
         output = example.split("\nOutput: ")[1].split("\n")[0]
 
-        var_init = f"test_input_{i} = {var_value}"
-        var_inits.append(var_init)
+        for j, var_value in enumerate(var_values):
+            # pattern: test_input_1a, test_input_1b, ...
+            var_init = f"test_input_{i}{chr(97+j)} = {var_value}"
+            var_inits.append(var_init)
         test_case = f"assert {function_name}(test_input_{i}) == {output}"
         test_cases.append(test_case)
 
@@ -34,7 +36,13 @@ def get_problem_definitions(page_content: str) -> Dict[str, Union[str, List[str]
 
     print("Getting problem definitions...")
 
-    problem_text = page_content.split("Add to List\nShare\n")[1].split("\nAccepted\n")[0]
+    if "To view this question you must subscribe to premium." in page_content:
+        raise ValueError(f"Error: {'To view this question you must subscribe to premium.'}. Rerun script.")
+
+    try:
+        problem_text = page_content.split("Add to List\nShare\n")[1].split("\nAccepted\n")[0]
+    except IndexError:
+        problem_text = page_content.split("Add to List\n")[1].split("\nAccepted\n")[0]
 
     description = problem_text.split("  Example 1:\n")[0]
 
@@ -92,7 +100,7 @@ if __name__ == "__main__":
 
     # contains all problems for category "algorithms"
     leet_code_api_url = "https://leetcode.com/api/problems/algorithms/"
-    leet_code_api_url = "https://leetcode.com/problems/find-pivot-index/"
+    leet_code_api_url = "https://leetcode.com/problems/merge-two-sorted-lists"
 
-    print_problem_definition_and_test_cases(url=leet_code_api_url, function_name="pivotIndex")
+    print_problem_definition_and_test_cases(url=leet_code_api_url, function_name="mergeTwoLists")
 
