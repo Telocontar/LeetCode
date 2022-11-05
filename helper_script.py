@@ -20,11 +20,14 @@ def generate_test_cases(examples: List[str], function_name: str) -> str:
         var_values = [var_def.split(" = ")[1] for var_def in _input.split(", ")]
         output = example.split("\nOutput: ")[1].split("\n")[0]
 
+        var_list = []
         for j, var_value in enumerate(var_values):
             # pattern: test_input_1a, test_input_1b, ...
             var_init = f"test_input_{i}{chr(97+j)} = {var_value}"
             var_inits.append(var_init)
-        test_case = f"assert {function_name}(test_input_{i}) == {output}"
+            var_list.append(f"test_input_{i}{chr(97+j)}")
+
+        test_case = f"assert {function_name}({', '.join(var_list)}) == {output}"
         test_cases.append(test_case)
 
     test_case_str = "\n".join(var_inits) + "\n\n" + "\n".join(test_cases)
