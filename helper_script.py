@@ -94,16 +94,16 @@ def print_problem_definition_and_test_cases(url: str, function_name: str):
 
     test_case_str = generate_test_cases(examples=examples, function_name=function_name)
 
-    print(f'\n"""\n{problem_text}\n"""')
-    print()
+    print(f'\n"""\n{problem_text}\n"""\n\n')
     print(test_case_str)
+    print(f'\nprint("Tests successful.")')
 
 
 if __name__ == "__main__":
 
     # contains all problems for category "algorithms"
     leet_code_api_url = "https://leetcode.com/api/problems/algorithms/"
-    leet_code_api_url = "https://leetcode.com/problems/merge-two-sorted-lists"
+    leet_code_api_url = "https://leetcode.com/problems/reverse-linked-list/"
 
-    print_problem_definition_and_test_cases(url=leet_code_api_url, function_name="mergeTwoLists")
+    print_problem_definition_and_test_cases(url=leet_code_api_url, function_name="reverseList")
 
