@@ -14,30 +14,9 @@ The number of nodes in the list is the range [0, 5000].
 -5000 <= Node.val <= 5000
   Follow up: A linked list can be reversed either iteratively or recursively. Could you implement both?
 """
-from typing import Optional, List
+from typing import Optional
 
-
-class ListNode:
-    def __init__(self, val=0, next=None):
-        self.val = val
-        self.next = next
-
-    def __repr__(self):
-        return f"ListNode(val={self.val}, next={self.next})"
-
-    def __eq__(self, other):
-        return str(self) == str(other)
-
-
-def create_linked_list(input_list: List) -> ListNode:
-
-    if len(input_list) == 0:
-        return ListNode()
-    # last element in list
-    elif len(input_list) == 1:
-        return ListNode(val=input_list[0])
-    else:
-        return ListNode(val=input_list[0], next=create_linked_list(input_list[1:]))
+from utils.utilities import ListNode, create_linked_list
 
 
 def reverseList(head: Optional[ListNode]) -> Optional[ListNode]:
